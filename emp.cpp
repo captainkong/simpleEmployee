@@ -1,8 +1,17 @@
 #include <iostream>
-#include <conio.h>
+//#include <conio.h>
+#include <curses.h>
 #include <cstring>
 #include <fstream>
 #include <list>
+
+#ifdef define(_WIN32)
+	#define	CLS		system("cls");
+	#define PAUSSE	system("pause>nul");
+#else
+	#define	CLS		system("reset");
+	#define PAUSSE	getchar();getchar();
+#endif
 
 using namespace std;
 
@@ -83,15 +92,15 @@ void Dataoperate::addToList(Employe ea,bool isWrite)
 	for(;it!=elist.end();it++)
 	{
 		if((*it).getEmployeId()==ea.getEmployeId()){
-			cout <<"ĞÅÏ¢±£´æÊ§°Ü:Ô±¹¤idÖØ¸´";
-			system("pause>nul");
+			cout <<"ä¿¡æ¯ä¿å­˜å¤±è´¥:å‘˜å·¥idé‡å¤";
+			PAUSSE
 			return;
 		}
 	}
 	Employe *e=new Employe(ea);
 	elist.push_back(ea);
 	if(isWrite){
-		ofstream of("file.txt",ios::out|ios::binary|ios::app);	//Ğ´ÎÄ¼ş
+		ofstream of("file.txt",ios::out|ios::binary|ios::app);	//å†™æ–‡ä»¶
 		of.write((char*)e,sizeof(Employe));
 		of.close();
 	}
@@ -100,7 +109,7 @@ void Dataoperate::addToList(Employe ea,bool isWrite)
 int Dataoperate::getId()
 {
 	int id;
-	cout<<"\nÇëÊäÈëÔ±¹¤id:";
+	cout<<"\nè¯·è¾“å…¥å‘˜å·¥id:";
 	cin>>id;
 	return id;
 } 
@@ -108,7 +117,7 @@ int Dataoperate::getId()
 void Dataoperate::refresh()
 {
 	list<Employe>::iterator it=elist.begin();
-	ofstream of("file.txt",ios::out|ios::binary);	//¸ü¸ÄĞÅÏ¢µ½ÎÄ¼ş 
+	ofstream of("file.txt",ios::out|ios::binary);	//æ›´æ”¹ä¿¡æ¯åˆ°æ–‡ä»¶ 
 	Employe *e;
 	for(;it!=elist.end();it++)
 	{
@@ -135,29 +144,30 @@ void Dataoperate::alterData()
 		}
 	}
 	if(!find){
-		cout <<"²éÎŞ´ËÈË!"<<endl; 
+		cout <<"æŸ¥æ— æ­¤äºº!"<<endl; 
 	}else{
 		(*it).getInfo();
 		(*it).getData();
 		refresh();
-		cout <<"ĞÅÏ¢ÒÑ¸üĞÂ,Çë°´ÈÎÒâ¼ü¼ÌĞø";
+		cout <<"ä¿¡æ¯å·²æ›´æ–°,è¯·æŒ‰ä»»æ„é”®ç»§ç»­";
 	}
-	system("pause>nul");
+	PAUSSE
 }
 
 void Dataoperate::delData()
 {
-	cout <<"\nÇëÑ¡Ôñ¼ìË÷·½Ê½,id[1],ĞÕÃû[2]:";
-	int choice=getch()-48;
+	cout <<"\nè¯·é€‰æ‹©æ£€ç´¢æ–¹å¼,id[1],å§“å[2]:";
+	int choice;
 	int id;
+	cin>>choice;
 	string name;
 	if(choice==1){
 		id=getId();
 	}else if(choice==2){
-		cout <<"\nÇëÊäÈëĞÕÃû:";
+		cout <<"\nè¯·è¾“å…¥å§“å:";
 		cin>>name; 
 	}else{
-		system("pause");
+		PAUSSE
 		return;
 	}
 
@@ -181,22 +191,22 @@ void Dataoperate::delData()
 		
 	}
 	if(!find){
-		cout <<"²éÎŞ´ËÈË!"<<endl; 
+		cout <<"æŸ¥æ— æ­¤äºº!"<<endl; 
 	}else{
 		(*it).getInfo();
-		cout<<"ÊÇ·ñÉ¾³ı?[y/n]";
+		cout<<"æ˜¯å¦åˆ é™¤?[y/n]";
 		char choice;
 		cin>>choice;
 		if(choice=='y'||choice=='Y'){
 			it =elist.erase(it);
 			refresh();
-			cout <<"ĞÅÏ¢ÒÑ¸üĞÂ,Çë°´ÈÎÒâ¼ü¼ÌĞø";
+			cout <<"ä¿¡æ¯å·²æ›´æ–°,è¯·æŒ‰ä»»æ„é”®ç»§ç»­";
 		}else{
 			return;
 		}
 		
 	}
-	system("pause>nul");
+	PAUSSE
 }
 
 string Employe::getName()
@@ -207,18 +217,18 @@ string Employe::getName()
 
 void Employe::getInfo()
 {
-	cout <<"\n¹¤ºÅ:"<<id<<endl;
-	cout <<"ĞÕÃû:"<<name<<endl;
-	cout <<"²¿ÃÅ:"<<dept<<endl;
+	cout <<"\nå·¥å·:"<<id<<endl;
+	cout <<"å§“å:"<<name<<endl;
+	cout <<"éƒ¨é—¨:"<<dept<<endl;
 }
 
 void Employe::getData()
 {
-	cout <<"\nÇëÊäÈë¹¤ºÅ:";
+	cout <<"\nè¯·è¾“å…¥å·¥å·:";
 	cin>>id; 
-	cout <<"ÇëÊäÈëĞÕÃû:";
+	cout <<"è¯·è¾“å…¥å§“å:";
 	cin>>name;
-	cout <<"ÇëÊäÈë²¿ÃÅ:";
+	cout <<"è¯·è¾“å…¥éƒ¨é—¨:";
 	cin>>dept;
 }
 
@@ -226,15 +236,15 @@ void Employe::getData()
 void menue(Dataoperate* dp)
 {
 	int choice; 
-	system("cls");
-	cout <<"\tÔ±¹¤ÏµÍ³\n"<<endl;
-	cout <<"0	ÍË³öÏµÍ³:"<<endl;
-	cout <<"1	´òÓ¡ĞÅÏ¢:"<<endl;
-	cout <<"2	Ìí¼ÓĞÅÏ¢:"<<endl;
-	cout <<"3	ĞŞ¸ÄĞÅÏ¢:"<<endl;
-	cout <<"4	É¾³ıĞÅÏ¢:"<<endl;
-	cout <<"ÇëÑ¡Ôñ:";
-	choice=getch()-48;
+	CLS
+	cout <<"\tå‘˜å·¥ç³»ç»Ÿ\n"<<endl;
+	cout <<"0	é€€å‡ºç³»ç»Ÿ:"<<endl;
+	cout <<"1	æ‰“å°ä¿¡æ¯:"<<endl;
+	cout <<"2	æ·»åŠ ä¿¡æ¯:"<<endl;
+	cout <<"3	ä¿®æ”¹ä¿¡æ¯:"<<endl;
+	cout <<"4	åˆ é™¤ä¿¡æ¯:"<<endl;
+	cout <<"è¯·é€‰æ‹©:";
+	choice=getchar()-48;
 	switch(choice)
 	{
 		case 3:
@@ -248,12 +258,12 @@ void menue(Dataoperate* dp)
 			exit(0);
 			break;
 		case 1:
-			//´òÓ¡ĞÅÏ¢ 
+			//æ‰“å°ä¿¡æ¯ 
 			dp->getListInfo();
-			system("pause");
+			PAUSSE
 			break;
 		case 2:
-			//Ìí¼ÓÊı¾İ 
+			//æ·»åŠ æ•°æ® 
 			cout<<endl;
 			Employe e;
 			e.getData(); 
