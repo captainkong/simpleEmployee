@@ -1,15 +1,14 @@
 #include <iostream>
-//#include <conio.h>
 #include <cstring>
 #include <fstream>
 #include <list>
 
 #if	defined	(_WIN32)
 	#define	CLS		system("cls");
-	#define PAUSSE	system("pause>nul");
+	#define PAUSE	system("pause>nul");
 #else
 	#define	CLS		system("reset");
-	#define PAUSSE	getchar();getchar();
+	#define PAUSE	getchar();getchar();
 #endif
 
 using namespace std;
@@ -92,7 +91,7 @@ void Dataoperate::addToList(Employe ea,bool isWrite)
 	{
 		if((*it).getEmployeId()==ea.getEmployeId()){
 			cout <<"信息保存失败:员工id重复";
-			PAUSSE
+			PAUSE
 			return;
 		}
 	}
@@ -150,7 +149,7 @@ void Dataoperate::alterData()
 		refresh();
 		cout <<"信息已更新,请按任意键继续";
 	}
-	PAUSSE
+	PAUSE
 }
 
 void Dataoperate::delData()
@@ -166,7 +165,7 @@ void Dataoperate::delData()
 		cout <<"\n请输入姓名:";
 		cin>>name; 
 	}else{
-		PAUSSE
+		PAUSE
 		return;
 	}
 
@@ -205,7 +204,7 @@ void Dataoperate::delData()
 		}
 		
 	}
-	PAUSSE
+	PAUSE
 }
 
 string Employe::getName()
@@ -259,7 +258,7 @@ void menue(Dataoperate* dp)
 		case 1:
 			//打印信息 
 			dp->getListInfo();
-			PAUSSE
+			PAUSE
 			break;
 		case 2:
 			//添加数据 
