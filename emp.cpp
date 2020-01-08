@@ -4,7 +4,7 @@
 #include <fstream>
 #include <list>
 
-#ifdef define(_WIN32)
+#if	defined	(_WIN32)
 	#define	CLS		system("cls");
 	#define PAUSSE	system("pause>nul");
 #else
